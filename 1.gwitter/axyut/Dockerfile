@@ -7,11 +7,8 @@ COPY . /var/www/html
 
 RUN rm /var/www/html/index.html
 
-WORKDIR /var/www/html/database
-
-RUN sqlite3 gwitter.db < schema.sql
-RUN sqlite3 gwitter.db < populate.sql
-
 WORKDIR /var/www/html
 
-RUN chown -R www-data:www-data database
+RUN bash database/populate.sh
+
+RUN php -S 0.0.0.0:80 -t .
